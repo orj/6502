@@ -108,7 +108,7 @@ push_char:
     pha             ; Push char from string onto stack
     bne .char_loop
     pla
-    sta message,y   ; Pull the nul off the stack and add to the end of string    
+    sta result,y   ; Pull the nul off the stack and add to the end of string    
     rts
 
 halt:
