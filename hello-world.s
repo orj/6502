@@ -5,6 +5,7 @@
 ; Global Data 
 value = $0200 ; 2 bytes
 mod10 = $0202 ; 2 bytes
+result = $0204; 6 bytes
 
 ; VIA Ports
 PORTB = $6000
@@ -28,16 +29,9 @@ reset:
 
     jsr setup_lcd
 
-    ldx #0
-print:
-    lda message,x
-    beq .exit
-    jsr print_char
-    inx
-    jmp print
-.exit:
-
-    jmp halt
+    ; Init result
+    lda #0
+    sta result
 
     ; Initialize value to be the number to convert
     lda number
@@ -80,12 +74,42 @@ divide:
     lda mod10
     clc
     adc #"0"
-    jsr print_char
+    jsr push_char
 
     ; if value != 0, then continue dividing
     lda value
     ora value + 1
     bne divide ; branch if value != 0
+
+    ; Print the result string
+    ldx #0
+print:
+    lda result,x
+    beq .exit
+    jsr print_char
+    inx
+    jmp print
+.exit:
+
+    jmp halt
+; Add the character in the A register to the beginning of the
+; nul-terminated string `result`
+push_char:
+    pha ; Push new first char onto the stack
+    ldy #0
+
+.char_loop
+    lda result,y   ; Get char on string and put into X register
+    tax 
+    pla
+    sta result,y   ; Pull char off stack and add it to the string
+    iny
+    txa
+    pha             ; Push char from string onto stack
+    bne .char_loop
+    pla
+    sta message,y   ; Pull the nul off the stack and add to the end of string    
+    rts
 
 halt:
     jmp halt
