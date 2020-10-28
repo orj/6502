@@ -214,6 +214,8 @@ print_char:
     
 nmi:
     rti
+
+; Interrupt Request Handler
 irq:
     ; sei
     inc counter
@@ -224,6 +226,6 @@ irq:
     rti
 
     .org $fffa
-    .word nmi   ; $fffa-fffb - Non maskable interupts
+    .word nmi   ; $fffa-fffb - Non maskable interupt handler vector
     .word reset ; $fffc-fffd - Reset Vector
-    .word irq   ; $fffe-ffff - Interupt request
+    .word irq   ; $fffe-ffff - Interrupt request handler vector
