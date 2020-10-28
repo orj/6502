@@ -3,9 +3,10 @@
 ; Stack ($0100 - $01FF)
 
 ; Global Data 
-value = $0200 ; 2 bytes
-mod10 = $0202 ; 2 bytes
-result = $0204; 6 bytes
+value = $0200       ; 2 bytes
+mod10 = $0202       ; 2 bytes
+result = $0204      ; 6 bytes
+counter = $020a     ; 2 bytes
 
 ; VIA Ports
 PORTB = $6000
@@ -20,23 +21,31 @@ RS = %00100000
 
 ; LCD Commands
 LCD_ClearDisplay = %00000001
+LCD_CursorHome = %00000010
 
     .org $8000
 reset:    
-    lda #$ff        ; Initialise the stack
-    tax
+    ldx #$ff        ; Initialise the stack
     txs
 
     jsr setup_lcd
+
+    lda #0
+    sta counter
+    sta counter + 1
+
+loop:
+    lda #LCD_CursorHome
+    jsr lcd_instruction
 
     ; Init result
     lda #0
     sta result
 
     ; Initialize value to be the number to convert
-    lda number
+    lda counter
     sta value
-    lda number + 1
+    lda counter + 1
     sta value + 1
 
 divide:
@@ -91,7 +100,10 @@ print:
     jmp print
 .exit:
 
+    jmp loop
+
     jmp halt
+
 ; Add the character in the A register to the beginning of the
 ; nul-terminated string `result`
 push_char:
@@ -199,6 +211,18 @@ print_char:
     sta PORTA
     rts
     
-    .org $fffc
-    .word reset
-    .word $0000
+nmi:
+    rti
+irq:
+    ; sei
+    inc counter
+    bne .exit
+    inc counter + 1
+.exit:
+    ; cli
+    rti
+
+    .org $fffa
+    .word nmi   ; $fffa-fffb - Non maskable interupts
+    .word reset ; $fffc-fffd - Reset Vector
+    .word irq   ; $fffe-ffff - Interupt request
