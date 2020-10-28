@@ -27,6 +27,7 @@ LCD_CursorHome = %00000010
 reset:    
     ldx #$ff        ; Initialise the stack
     txs
+    cli
 
     jsr setup_lcd
 
