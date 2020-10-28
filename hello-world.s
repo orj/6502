@@ -217,12 +217,10 @@ nmi:
 
 ; Interrupt Request Handler
 irq:
-    sei             ; Disable irq
     inc counter
     bne .exit
     inc counter + 1
 .exit:
-    cli             ; Enable irq
     rti
 
     .org $fffa
