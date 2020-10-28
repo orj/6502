@@ -211,12 +211,12 @@ print_char:
     lda #RS        ; Set RS
     sta PORTA
     rts
-    
-nmi:
+
+; Interrupt Request Handler    
+irq:
     rti
 
-; Interrupt Request Handler
-irq:
+nmi:
     inc counter
     bne .exit
     inc counter + 1
