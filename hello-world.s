@@ -263,6 +263,7 @@ irq:
     bne .exit
     inc counter + 1
 .exit:
+    bit PORTA
     rti
 
     .org $fffa
