@@ -29,6 +29,35 @@ RS = %00100000
 LCD_ClearDisplay = %00000001
 LCD_CursorHome = %00000010
 
+; Interrupt Enable Register Bits
+IRE_Clear  = %00000000
+IRE_Set    = %10000000
+IRE_Timer1 = %01000000
+IRE_Timer2 = %00100000
+IRE_CB1    = %00010000
+IRE_CB2    = %00001000
+IRE_Shift  = %00000100
+IRE_CA1    = %00000010
+IRE_CA2    = %00000001
+
+; Interrupt Flag Register Bits
+IFR_IRQ    = %10000000
+IFR_Timer1 = %01000000
+IFR_Timer2 = %00100000
+IFR_CB1    = %00010000
+IFR_CB2    = %00001000
+IFR_Shift  = %00000100
+IFR_CA1    = %00000010
+IFR_CA2    = %00000001
+
+; Periferal Control Register Bits
+; TODO: CB2 3 bits
+PCR_CB1_NegActiveEdge    = %00000000
+PCR_CB1_PosActiveEdge    = %00010000
+; TODO: CA2 3 bits
+PCR_CA1_NegActiveEdge    = %00000000
+PCR_CA1_PosActiveEdge    = %00000001
+
     .org $8000
 reset:    
     ldx #$ff        ; Initialise the stack
