@@ -247,11 +247,13 @@ print_char:
     sta PORTA
     rts
 
-; Interrupt Request Handler    
-irq:
+
+; Non-maskable Interrupt Handler
+nmi:
     rti
 
-nmi:
+; Interrupt Request Handler    
+irq:
     inc counter
     bne .exit
     inc counter + 1
