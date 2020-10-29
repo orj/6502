@@ -8,11 +8,17 @@ mod10 = $0202       ; 2 bytes
 result = $0204      ; 6 bytes
 counter = $020a     ; 2 bytes
 
-; VIA Ports
+; VIA1 Registers
 PORTB = $6000
 PORTA = $6001
 DDRB = $6002
 DDRA = $6003
+; more registers
+SR  = $600a
+ACR = $600b
+PCR = $600c
+IFR = $600d
+IER = $600e
 
 ; Constants
 E  = %10000000
