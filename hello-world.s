@@ -64,6 +64,11 @@ reset:
     txs
     cli
 
+    lda #(IRE_Set | IRE_CA1)
+    sta IER
+    lda #(PCR_CA1_NegActiveEdge)
+    sta PCR
+
     jsr setup_lcd
 
     lda #0
