@@ -170,9 +170,6 @@ halt:
 number:     
     .word 1729
 
-message:    
-    .asciiz "Hello, Sarah!"
-
 setup_lcd:
     pha
     lda #%11111111      ; Set all pins on PORTB to output
