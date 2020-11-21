@@ -79,19 +79,19 @@ reset:
 halt:
     jmp halt
 
-message:    
+message:
     .asciiz "Hello, every1 at                        Itty Bitty Apps!"
 
 ; Print a string
 ; - Parameters
 ;   - A & X register: The address of the string.
 print_string:
-    sta ptr1
+    sta ptr1            ; Store A & X in ZP ptr1 variable
     stx ptr1+1
-    phy
-    ; Print the result string
+    
+    phy    
     ldy #0
-.print:
+.print:                 ; Print the asciiz string pointed to by ptr1
     lda (ptr1),y
     beq .exit
     jsr print_char
