@@ -6,3 +6,6 @@ build/
 
 # Tools
 tools/vasm/obj
+tools/vasm/vasm6502_oldstyle
+tools/vasm/vobjdump
+
