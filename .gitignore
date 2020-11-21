@@ -1,0 +1,8 @@
+# macOS files
+.DS_Store
+
+# build output
+build/
+
+# Tools
+tools/vasm/obj
